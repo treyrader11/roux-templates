@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ─── ReverseGen-derived warm editorial salon palette (HSL) ─── */
+:root {
+  --background: 36 33% 96%;
+  --foreground: 24 15% 12%;
+  --muted: 34 20% 90%;
+  --muted-foreground: 24 8% 42%;
+  --border: 30 18% 84%;
+  --card: 0 0% 100%;
+  --brand: 22 48% 48%;
+  --brand-foreground: 36 33% 97%;
+}
+
+.dark {
+  --background: 24 14% 8%;
+  --foreground: 36 20% 92%;
+  --muted: 24 10% 16%;
+  --muted-foreground: 30 8% 62%;
+  --border: 24 10% 20%;
+  --card: 24 12% 12%;
+  --brand: 28 55% 58%;
+  --brand-foreground: 24 14% 8%;
+}
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-border: hsl(var(--border));
+  --color-card: hsl(var(--card));
+  --color-brand: hsl(var(--brand));
+  --color-brand-foreground: hsl(var(--brand-foreground));
+
+  /* Terracotta / copper brand scale (from ReverseGen tailwind.config) */
+  --color-brand-50: #faf5f0;
+  --color-brand-100: #f3e7da;
+  --color-brand-200: #e6ccb3;
+  --color-brand-300: #d6ac85;
+  --color-brand-400: #c78d5c;
+  --color-brand-500: #b8733f;
+  --color-brand-600: #a15c34;
+  --color-brand-700: #84482d;
+  --color-brand-800: #6d3d2a;
+  --color-brand-900: #5b3425;
+  --color-ink: #1a1613;
+  --color-cream: #f7f2ec;
+
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-display: var(--font-playfair), Georgia, serif;
+
+  --breakpoint-xs: 400px;
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@utility container-px {
+  padding-inline: 1.25rem;
+  @media (min-width: 640px) {
+    padding-inline: 2rem;
+  }
+  @media (min-width: 1024px) {
+    padding-inline: 3rem;
+  }
+}

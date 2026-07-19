@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── ReverseGen-derived warm editorial salon palette (HSL) ─── */
+@layer base {
+  :root {
+    --background: 36 33% 96%;
+    --foreground: 24 15% 12%;
+    --muted: 34 20% 90%;
+    --muted-foreground: 24 8% 42%;
+    --border: 30 18% 84%;
+    --card: 0 0% 100%;
+    --brand: 22 48% 48%;
+    --brand-foreground: 36 33% 97%;
+  }
+
+  .dark {
+    --background: 24 14% 8%;
+    --foreground: 36 20% 92%;
+    --muted: 24 10% 16%;
+    --muted-foreground: 30 8% 62%;
+    --border: 24 10% 20%;
+    --card: 24 12% 12%;
+    --brand: 28 55% 58%;
+    --brand-foreground: 24 14% 8%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+}
+
+@layer components {
+  .container-px {
+    @apply px-5 sm:px-8 lg:px-12;
+  }
+}
