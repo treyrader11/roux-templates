@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "roux-template",
-  description: "Created with rouxui create",
+  title: "My Roux UI App",
+  description: "Built with Roux UI",
 };
 
 export default function RootLayout({

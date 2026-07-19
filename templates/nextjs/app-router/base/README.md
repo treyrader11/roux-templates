@@ -1,9 +1,18 @@
-# roux-template
+# Roux UI — Next.js App Router Base Template
 
-A Next.js (App Router) starter created with `rouxui create`.
+Bootstrapped with [`rouxui create`](https://rouxui.com).
+
+## Getting Started
 
 ```bash
-cp .env.example .env.local
 bun install
 bun dev
 ```
+
+## Add Components
+
+```bash
+npx rouxui add <component-name>
+```
+
+Visit [rouxui.com/components](https://rouxui.com/components) to browse all components.
