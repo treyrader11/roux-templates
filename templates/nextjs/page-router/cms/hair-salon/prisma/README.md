@@ -1,30 +1,47 @@
-# Lumière Hair Studio — Next.js Pages Router + Prisma CMS
+# Roux UI — Hair Salon CMS (Pages Router)
 
-A hair-salon / beauty starter with a public marketing site and an admin CMS,
-scaffolded by [`rouxui create`](https://rouxui.com). Design derived from the
-ReverseGen editorial salon theme (warm terracotta + cream, Playfair Display + Inter).
-Uses the **Pages Router** and **Tailwind v3**.
+A full-featured hair salon CMS built with Next.js Pages Router, Drizzle ORM, and NextAuth.
+
+Bootstrapped with [`rouxui create`](https://rouxui.com).
+
+> **Note on the ORM:** this template ships **Drizzle ORM** (Neon PostgreSQL), not
+> Prisma, even though it currently lives in the `prisma/` template slot.
 
 ## Getting Started
 
 ```bash
 bun install
-cp .env.example .env.local   # set DATABASE_URL + AUTH_SECRET
-bunx prisma db push
-bun dev
+cp .env.example .env.local
+# Fill in your environment variables
+bun run db:push     # create the schema
+bun run db:seed     # optional: seed an admin user + demo content
+bun dev             # http://localhost:3001
 ```
 
-## Structure
+## Features
 
-- `pages/` — public site (index, services, gallery, about, contact, booking)
-- `pages/admin/` — CMS dashboard (services, gallery, bookings, staff) behind NextAuth
-- `pages/api/` — auth, bookings, and services API routes
-- `components/` — `layout/`, `sections/`, and `ui/` (pure Tailwind + lucide-react)
-- `prisma/schema.prisma` — Service, Booking, StaffMember, GalleryImage, Testimonial, User
-- `lib/content.ts` — placeholder salon content (swap for live Prisma queries)
+- Public marketing site (Home, Services, Stylists, Gallery, Pricing, Contact, Booking)
+- Admin CMS dashboard — page content, images, staff, services, pricing and bookings are all editable, nothing is hardcoded
+- NextAuth v4 authentication (credentials + JWT)
+- Drizzle ORM with PostgreSQL (Neon serverless)
+- Tailwind CSS v3 styling with light/dark theming
+- Cloudinary media uploads, Resend transactional email, reCAPTCHA-protected forms
 
-## Add Roux UI components
+## Scripts
+
+| Script | Purpose |
+| --- | --- |
+| `bun dev` | Dev server on port 3001 |
+| `bun run build` | Production build |
+| `bun run db:push` | Push the Drizzle schema to the database |
+| `bun run db:seed` | Seed admin user + demo content |
+| `bun run db:studio` | Open Drizzle Studio |
+| `bun run db:reset` | Drop and recreate the schema |
+
+## Add Roux UI Components
 
 ```bash
 npx rouxui add <component-name>
 ```
+
+Visit [rouxui.com/components](https://rouxui.com/components) to browse all components.

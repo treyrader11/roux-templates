@@ -5,20 +5,19 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-/** Format a number as USD currency. */
-export function formatPrice(value: number): string {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 0,
-  }).format(value);
+export function toTitleCase(str: string): string {
+  return str
+    .trim()
+    .replace(/\s+/g, " ")
+    .replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
 }
 
-/** Human-readable minute duration, e.g. 90 -> "1h 30m". */
-export function formatDuration(minutes: number): string {
-  const h = Math.floor(minutes / 60);
-  const m = minutes % 60;
-  if (h && m) return `${h}h ${m}m`;
-  if (h) return `${h}h`;
-  return `${m}m`;
+/** Parse a JSON-stringified CMS record, falling back to defaults on any error. */
+export function parseCms<T>(record: { content: string } | null, fallback: T): T {
+  if (!record) return fallback;
+  try {
+    return JSON.parse(record.content) as T;
+  } catch {
+    return fallback;
+  }
 }

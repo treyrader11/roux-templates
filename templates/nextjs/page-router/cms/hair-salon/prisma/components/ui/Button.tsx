@@ -1,10 +1,9 @@
+import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import Link from "next/link";
 import { forwardRef } from "react";
-import { cn } from "@/lib/utils";
 
-// Button variants mirror the ReverseGen salon theme: pill shape, brand hovers.
-export const buttonVariants = cva(
+const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 rounded-full font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:opacity-50 disabled:pointer-events-none",
   {
     variants: {
@@ -55,3 +54,5 @@ export function LinkButton({
     />
   );
 }
+
+export { buttonVariants };

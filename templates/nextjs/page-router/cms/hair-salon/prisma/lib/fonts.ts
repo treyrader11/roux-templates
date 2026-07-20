@@ -1,6 +1,5 @@
 import { Inter, Playfair_Display } from "next/font/google";
 
-// Matches the ReverseGen editorial pairing: Inter body + Playfair Display headings.
 export const fontSans = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -9,6 +8,6 @@ export const fontSans = Inter({
 
 export const fontDisplay = Playfair_Display({
   subsets: ["latin"],
-  variable: "--font-playfair",
+  variable: "--font-display",
   display: "swap",
 });

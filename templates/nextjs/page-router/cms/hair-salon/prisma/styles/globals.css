@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ─── ReverseGen-derived warm editorial salon palette (HSL) ─── */
 @layer base {
   :root {
     --background: 36 33% 96%;
@@ -42,5 +41,9 @@
 @layer components {
   .container-px {
     @apply px-5 sm:px-8 lg:px-12;
+  }
+
+  .gradient-button {
+    @apply rounded-full bg-brand text-brand-foreground transition-colors hover:bg-brand-600;
   }
 }

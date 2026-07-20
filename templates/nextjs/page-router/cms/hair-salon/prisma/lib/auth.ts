@@ -1,24 +1,14 @@
-// NextAuth (v4) configuration for the App Router.
-//
-// Auth providers are injected by `rouxui create` based on your selections.
-// To add providers manually, see: https://authjs.dev/getting-started/providers
-import type { AuthOptions } from "next-auth";
+import bcrypt from "bcryptjs";
 
-export const authOptions: AuthOptions = {
-  providers: [
-    // Providers are added here by `rouxui create` (e.g. GoogleProvider, GitHubProvider).
-  ],
-  session: { strategy: "jwt" },
-  pages: {
-    signIn: "/api/auth/signin",
-  },
-  callbacks: {
-    async session({ session, token }) {
-      if (session.user && token.sub) {
-        (session.user as { id?: string }).id = token.sub;
-      }
-      return session;
-    },
-  },
-  secret: process.env.AUTH_SECRET,
-};
+const SALT_ROUNDS = 12;
+
+export async function hashPassword(password: string): Promise<string> {
+  return bcrypt.hash(password, SALT_ROUNDS);
+}
+
+export async function verifyPassword(
+  password: string,
+  hashedPassword: string
+): Promise<boolean> {
+  return bcrypt.compare(password, hashedPassword);
+}

@@ -1,68 +1,58 @@
-import { CalendarCheck, Scissors, Users, DollarSign } from "lucide-react";
-import { Badge } from "@/components/ui/Badge";
-import { BOOKINGS, SERVICES, STYLISTS } from "@/lib/content";
+import type { GetServerSideProps } from "next";
+import AdminLayout from "@/components/admin/AdminLayout";
+import SectionCard from "@/components/admin/SectionCard";
+import { requireAdminSession } from "@/lib/admin-guard";
+import { ADMIN_PAGES } from "@/constants/site";
+import {
+  Home,
+  Scissors,
+  Users,
+  Image as ImageIcon,
+  Tag,
+  Mail,
+  Calendar,
+  Shield,
+  Megaphone,
+  Palette,
+} from "lucide-react";
 
-const STATUS_VARIANT = {
-  pending: "warning",
-  confirmed: "success",
-  completed: "muted",
-  cancelled: "danger",
-} as const;
+const ICONS: Record<string, React.ReactNode> = {
+  Home: <Home size={18} />,
+  Services: <Scissors size={18} />,
+  Stylists: <Users size={18} />,
+  Gallery: <ImageIcon size={18} />,
+  Pricing: <Tag size={18} />,
+  Contact: <Mail size={18} />,
+  Booking: <Calendar size={18} />,
+  Brand: <Palette size={18} />,
+  Banner: <Megaphone size={18} />,
+  Users: <Shield size={18} />,
+};
 
-const CARDS = [
-  { label: "Bookings this week", value: String(BOOKINGS.length), icon: CalendarCheck },
-  { label: "Active services", value: String(SERVICES.length), icon: Scissors },
-  { label: "Staff members", value: String(STYLISTS.length), icon: Users },
-  { label: "Revenue (est.)", value: "$4,280", icon: DollarSign },
-];
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const redirect = await requireAdminSession(ctx);
+  if (redirect) return redirect;
+  return { props: {} };
+};
 
-export default function DashboardPage() {
+export default function AdminDashboard() {
   return (
-    <div>
-      <h1 className="font-display text-2xl text-foreground">Dashboard</h1>
-      <p className="mt-1 text-sm text-muted-foreground">
-        An overview of your studio at a glance.
+    <AdminLayout>
+      <h1 className="font-display text-3xl text-foreground">Dashboard</h1>
+      <p className="mt-2 text-muted-foreground">
+        Manage every part of your site from one place.
       </p>
-
-      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {CARDS.map((c) => {
-          const Icon = c.icon;
-          return (
-            <div key={c.label} className="rounded-2xl border border-border bg-card p-5">
-              <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand/10 text-brand">
-                <Icon size={18} />
-              </span>
-              <p className="mt-4 font-display text-2xl text-foreground">{c.value}</p>
-              <p className="text-sm text-muted-foreground">{c.label}</p>
-            </div>
-          );
-        })}
+      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {ADMIN_PAGES.map((page) => (
+          <SectionCard
+            key={page.href}
+            name={page.name}
+            description={page.description}
+            href={page.href}
+            icon={ICONS[page.name]}
+          />
+        ))}
       </div>
-
-      <div className="mt-10 rounded-2xl border border-border bg-card">
-        <div className="border-b border-border px-5 py-4">
-          <h2 className="font-medium text-foreground">Recent bookings</h2>
-        </div>
-        <div className="divide-y divide-border">
-          {BOOKINGS.map((b) => (
-            <div
-              key={b.id}
-              className="flex items-center justify-between gap-4 px-5 py-4 text-sm"
-            >
-              <div>
-                <p className="font-medium text-foreground">{b.clientName}</p>
-                <p className="text-muted-foreground">
-                  {b.service} · {b.stylist}
-                </p>
-              </div>
-              <div className="flex items-center gap-4">
-                <span className="hidden text-muted-foreground sm:block">{b.date}</span>
-                <Badge variant={STATUS_VARIANT[b.status]}>{b.status}</Badge>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
+    </AdminLayout>
   );
 }

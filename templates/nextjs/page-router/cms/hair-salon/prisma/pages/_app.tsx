@@ -1,40 +1,64 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
+import type { NextRouter } from "next/router";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { SessionProvider } from "next-auth/react";
-import { fontSans, fontDisplay } from "@/lib/fonts";
-import Navbar from "@/components/layout/Navbar";
+import { useEffect } from "react";
+import { fontDisplay, fontSans } from "@/lib/fonts";
+import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import AdminSidebar from "@/components/layout/AdminSidebar";
+import { TopBanner } from "@/components/ui/TopBanner";
 
-export default function App({ Component, pageProps, router }: AppProps) {
-  const isAdmin = router.pathname.startsWith("/admin");
+function AppContent({
+  Component,
+  pageProps,
+  router,
+}: {
+  Component: AppProps["Component"];
+  pageProps: Record<string, unknown>;
+  router: NextRouter;
+}) {
+  const isAdminRoute = router.pathname.startsWith("/admin");
+
+  // Smooth scrolling on public routes only; destroyed on cleanup.
+  useEffect(() => {
+    if (isAdminRoute) return;
+    let instance: { destroy?: () => void } | undefined;
+    (async () => {
+      try {
+        const LocomotiveScroll = (await import("locomotive-scroll")).default;
+        instance = new LocomotiveScroll();
+      } catch {
+        // Locomotive is progressive enhancement — ignore init failures.
+      }
+    })();
+    return () => instance?.destroy?.();
+  }, [isAdminRoute]);
+
+  if (isAdminRoute) {
+    return <Component key={router.route} {...pageProps} />;
+  }
 
   return (
-    <SessionProvider session={pageProps.session}>
+    <div className="flex min-h-screen flex-col">
+      {!isAdminRoute && <TopBanner />}
+      <Header />
+      <main id="main-content" className="flex-1">
+        <Component key={router.route} {...pageProps} />
+      </main>
+      <Footer />
+    </div>
+  );
+}
+
+export default function App(props: AppProps) {
+  return (
+    <SessionProvider session={props.pageProps.session}>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <div className={`${fontSans.variable} ${fontDisplay.variable} font-sans`}>
-        {isAdmin ? (
-          <div className="flex h-screen bg-background">
-            <AdminSidebar />
-            <main className="flex-1 overflow-y-auto">
-              <div className="mx-auto max-w-5xl px-6 py-8">
-                <Component {...pageProps} />
-              </div>
-            </main>
-          </div>
-        ) : (
-          <div className="flex min-h-screen flex-col">
-            <Navbar />
-            <main className="flex-1">
-              <Component {...pageProps} />
-            </main>
-            <Footer />
-          </div>
-        )}
+        <AppContent {...props} />
       </div>
     </SessionProvider>
   );
