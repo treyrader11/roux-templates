@@ -8,6 +8,7 @@ import { fontDisplay, fontSans } from "@/lib/fonts";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { TopBanner } from "@/components/ui/TopBanner";
+import SetupRequired from "@/components/setup/SetupRequired";
 
 function AppContent({
   Component,
@@ -52,6 +53,12 @@ function AppContent({
 }
 
 export default function App(props: AppProps) {
+  // Server-provided flag from `dbProps` (lib/db.ts). Only DB-backed pages set
+  // it; `undefined` means the page needs no database, so render normally.
+  if (props.pageProps?.dbConnected === false) {
+    return <SetupRequired />;
+  }
+
   return (
     <SessionProvider session={props.pageProps.session}>
       <Head>

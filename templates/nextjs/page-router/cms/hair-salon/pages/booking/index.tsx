@@ -4,11 +4,11 @@ import { BookingPage, type BookingPageProps } from "@/components/booking/Booking
 import { eq, asc } from "drizzle-orm";
 import { getContentBySlugs, safeList } from "@/lib/cms";
 import { parseCms } from "@/lib/utils";
-import { db } from "@/lib/db";
+import { db, dbProps } from "@/lib/db";
 import { stylist } from "@/db/schema";
 import { DEFAULT_BOOKING_HERO, BOOKING_SECTION_SLUGS } from "@/lib/booking-defaults";
 
-export const getStaticProps: GetStaticProps<BookingPageProps> = async () => {
+export const getStaticProps: GetStaticProps<BookingPageProps & { dbConnected: boolean }> = async () => {
   const [records, stylists] = await Promise.all([
     getContentBySlugs([BOOKING_SECTION_SLUGS.hero]),
     safeList(() =>
@@ -22,6 +22,7 @@ export const getStaticProps: GetStaticProps<BookingPageProps> = async () => {
 
   return {
     props: {
+      ...dbProps,
       hero: parseCms(records[BOOKING_SECTION_SLUGS.hero], DEFAULT_BOOKING_HERO),
       stylists,
     },

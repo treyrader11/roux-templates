@@ -4,10 +4,20 @@ A full-featured hair salon CMS built with Next.js Pages Router, Drizzle ORM, and
 
 Bootstrapped with [`rouxui create`](https://rouxui.com).
 
-> **Note on the ORM:** this template ships **Drizzle ORM** (Neon PostgreSQL), not
-> Prisma, even though it currently lives in the `prisma/` template slot.
+> **Note on the ORM:** this template ships **Drizzle ORM** (Neon PostgreSQL), not Prisma.
 
-## Getting Started
+## Deploy
+
+The fastest way to get started — one click provisions a Neon PostgreSQL database and deploys to Vercel automatically:
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/treyrader11/roux-templates/tree/main/templates/nextjs/page-router/cms/hair-salon&env=AUTH_SECRET,NEXTAUTH_URL&envDescription=Required%20environment%20variables&project-name=my-salon-app&integration-ids=oac_jUduyjQgOyzev1fjrW6s9QS3)
+
+> After deploying, apply the schema against your provisioned database with `bun run db:push` (this project uses Drizzle, not Prisma).
+
+Without a `DATABASE_URL` the app renders a **Setup Required** screen with these
+instructions instead of crashing, so a fresh clone always boots.
+
+## Local Development
 
 ```bash
 bun install

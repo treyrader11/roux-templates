@@ -4,7 +4,7 @@ import { HomePage, type HomePageProps } from "@/components/home/HomePage";
 import { eq, asc } from "drizzle-orm";
 import { getContentBySlugs, safeList } from "@/lib/cms";
 import { parseCms } from "@/lib/utils";
-import { db } from "@/lib/db";
+import { db, dbProps } from "@/lib/db";
 import { stylist, galleryImage, showcaseItem } from "@/db/schema";
 import { COLLECTION_SLUGS } from "@/lib/collections";
 import { getCollectionImages } from "@/lib/collections-server";
@@ -19,7 +19,7 @@ import {
   HOME_SECTION_SLUGS,
 } from "@/lib/home-defaults";
 
-export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
+export const getStaticProps: GetStaticProps<HomePageProps & { dbConnected: boolean }> = async () => {
   const slugs = Object.values(HOME_SECTION_SLUGS);
   const [
     records,
@@ -74,6 +74,7 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
 
   return {
     props: {
+      ...dbProps,
       content: {
         hero: parseCms(records[HOME_SECTION_SLUGS.hero], DEFAULT_HOME_HERO),
         splash: parseCms(records[HOME_SECTION_SLUGS.splash], DEFAULT_HOME_SPLASH),

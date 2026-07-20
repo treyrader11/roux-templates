@@ -4,11 +4,11 @@ import { GalleryPage, type GalleryPageProps } from "@/components/gallery/Gallery
 import { asc } from "drizzle-orm";
 import { getContentBySlugs, safeList } from "@/lib/cms";
 import { parseCms } from "@/lib/utils";
-import { db } from "@/lib/db";
+import { db, dbProps } from "@/lib/db";
 import { galleryImage } from "@/db/schema";
 import { DEFAULT_GALLERY_HERO, GALLERY_SECTION_SLUGS } from "@/lib/gallery-defaults";
 
-export const getStaticProps: GetStaticProps<GalleryPageProps> = async () => {
+export const getStaticProps: GetStaticProps<GalleryPageProps & { dbConnected: boolean }> = async () => {
   const [records, images] = await Promise.all([
     getContentBySlugs([GALLERY_SECTION_SLUGS.hero]),
     safeList(() =>
@@ -26,6 +26,7 @@ export const getStaticProps: GetStaticProps<GalleryPageProps> = async () => {
 
   return {
     props: {
+      ...dbProps,
       hero: parseCms(records[GALLERY_SECTION_SLUGS.hero], DEFAULT_GALLERY_HERO),
       images,
     },

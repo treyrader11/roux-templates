@@ -4,7 +4,7 @@ import { PricingPage, type PricingPageProps } from "@/components/pricing/Pricing
 import { eq, asc } from "drizzle-orm";
 import { getContentBySlugs, safeList } from "@/lib/cms";
 import { parseCms } from "@/lib/utils";
-import { db } from "@/lib/db";
+import { db, dbProps } from "@/lib/db";
 import { pricingPackage } from "@/db/schema";
 import { DEFAULT_PRICING_HERO, PRICING_SECTION_SLUGS } from "@/lib/pricing-defaults";
 
@@ -17,7 +17,7 @@ function parseFeatures(raw: string): string[] {
   }
 }
 
-export const getStaticProps: GetStaticProps<PricingPageProps> = async () => {
+export const getStaticProps: GetStaticProps<PricingPageProps & { dbConnected: boolean }> = async () => {
   const [records, rows] = await Promise.all([
     getContentBySlugs([PRICING_SECTION_SLUGS.hero]),
     safeList(() =>
@@ -40,6 +40,7 @@ export const getStaticProps: GetStaticProps<PricingPageProps> = async () => {
 
   return {
     props: {
+      ...dbProps,
       hero: parseCms(records[PRICING_SECTION_SLUGS.hero], DEFAULT_PRICING_HERO),
       packages,
     },

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { desc } from "drizzle-orm";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { requireAdminSession } from "@/lib/admin-guard";
-import { db } from "@/lib/db";
+import { db, dbProps } from "@/lib/db";
 import { booking } from "@/db/schema";
 import { cn } from "@/lib/utils";
 
@@ -21,7 +21,7 @@ type BookingRow = {
   createdAt: string;
 };
 
-export const getServerSideProps: GetServerSideProps<{ bookings: BookingRow[] }> =
+export const getServerSideProps: GetServerSideProps<{ bookings: BookingRow[] } & { dbConnected: boolean }> =
   async (ctx) => {
     const redirect = await requireAdminSession(ctx);
     if (redirect) return redirect;
@@ -49,7 +49,7 @@ export const getServerSideProps: GetServerSideProps<{ bookings: BookingRow[] }> 
       bookings = [];
     }
 
-    return { props: { bookings } };
+    return { props: { ...dbProps, bookings } };
   };
 
 const STATUS_STYLES: Record<string, string> = {

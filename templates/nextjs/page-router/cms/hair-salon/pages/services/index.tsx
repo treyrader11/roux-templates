@@ -4,11 +4,11 @@ import { ServicesPage, type ServicesPageProps } from "@/components/services/Serv
 import { eq, asc } from "drizzle-orm";
 import { getContentBySlugs, safeList } from "@/lib/cms";
 import { parseCms } from "@/lib/utils";
-import { db } from "@/lib/db";
+import { db, dbProps } from "@/lib/db";
 import { service } from "@/db/schema";
 import { DEFAULT_SERVICES_HERO, SERVICES_SECTION_SLUGS } from "@/lib/services-defaults";
 
-export const getStaticProps: GetStaticProps<ServicesPageProps> = async () => {
+export const getStaticProps: GetStaticProps<ServicesPageProps & { dbConnected: boolean }> = async () => {
   const [records, services] = await Promise.all([
     getContentBySlugs([SERVICES_SECTION_SLUGS.hero]),
     safeList(() =>
@@ -29,6 +29,7 @@ export const getStaticProps: GetStaticProps<ServicesPageProps> = async () => {
 
   return {
     props: {
+      ...dbProps,
       hero: parseCms(records[SERVICES_SECTION_SLUGS.hero], DEFAULT_SERVICES_HERO),
       services,
     },
