@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Vintage Dark — warm browns, aged paper, film-grain aesthetic. */
+:root {
+  --background: 20 14% 4%;
+  --foreground: 35 25% 88%;
+  --primary: 30 60% 45%;
+  --primary-foreground: 35 25% 95%;
+  --secondary: 25 30% 20%;
+  --secondary-foreground: 35 25% 88%;
+  --muted: 25 20% 12%;
+  --muted-foreground: 35 15% 55%;
+  --accent: 38 70% 55%;
+  --accent-foreground: 20 14% 4%;
+  --border: 25 20% 18%;
+  --ring: 38 70% 55%;
+  --card: 20 12% 7%;
+  --card-foreground: 35 25% 88%;
+}
+
+.dark {
+  --background: 20 14% 4%;
+  --foreground: 35 25% 88%;
+  --primary: 30 60% 45%;
+  --primary-foreground: 35 25% 95%;
+  --secondary: 25 30% 20%;
+  --secondary-foreground: 35 25% 88%;
+  --muted: 25 20% 12%;
+  --muted-foreground: 35 15% 55%;
+  --accent: 38 70% 55%;
+  --accent-foreground: 20 14% 4%;
+  --border: 25 20% 18%;
+  --ring: 38 70% 55%;
+  --card: 20 12% 7%;
+  --card-foreground: 35 25% 88%;
+}
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-border: hsl(var(--border));
+  --color-ring: hsl(var(--ring));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --font-heading: var(--font-playfair), Georgia, serif;
+  --font-body: var(--font-inter), system-ui, sans-serif;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+}
